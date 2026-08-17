@@ -19,3 +19,12 @@ jobs:
 
       - name: Test
         run: echo "Tests passed"
+
+      - name: Send Slack Notification
+        if: always()
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "🚀 CI/CD Pipeline: ${{ job.status }} - ${{ github.repository }}"
